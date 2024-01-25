@@ -20,15 +20,14 @@ Student get_input() {
 }
 
 char get_grade(int marks) {
-    if (marks >= 90) {
+    if (marks >= 90)
         return 'A';
-    } else if (marks >= 80) {
+    else if (marks >= 80)
         return 'B';
-    } else if (marks >= 70) {
+    else if (marks >= 70)
         return 'C';
-    } else if (marks >= 60) {
+    else if (marks >= 60)
         return 'D';
-    }
     return 'F';
 }
 
