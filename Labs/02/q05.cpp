@@ -63,7 +63,7 @@ void output_product(Product products[MAX_PRODUCTS], int c, int id) {
     Product product = find_by_id(products, c, id);
     cout << endl;
 
-    if (product.name == "NOT_FOUUND") {
+    if (product.name == "NOT_FOUND") {
         cout << "Product not found" << endl;
         return;
     }
