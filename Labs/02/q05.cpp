@@ -1,7 +1,7 @@
 /*
  * Creator: Fasih Hasan
  * Date: 6/2/24
- * Desc: finding a subset that sums to a target sum in a given array
+ * Desc: product management system with various functions
  */
 
 #include <iostream>
