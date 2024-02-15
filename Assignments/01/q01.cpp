@@ -51,16 +51,16 @@ public:
 		adoptedPetRecords.push_back(pet); 
 	}
 
-	void returnPet(Pet pet) {
+	void returnPet(string name) {
 		vector<Pet>::iterator it;
 		for (it = adoptedPetRecords.begin(); it < adoptedPetRecords.end(); it++) {
-			if (it->name == pet.name) adoptedPetRecords.erase(it);
+			if (it->name == name) adoptedPetRecords.erase(it);
 		}
 	}
 
 	void displayAdoptedPets() {
 		for (Pet pet : adoptedPetRecords) {
-			cout << pet.name << endl;
+			cout << "Name: " << pet.name << endl;
 			pet.displayPetDetails();
 			cout << endl;
 		}
@@ -80,19 +80,76 @@ void menu(string name) {
 		 << ">> ";
 }
 
+string inputPetName() {
+	char name[100];
+	cout << "Enter pet name: ";
+	cin.getline(name, sizeof(name));
+
+	return string(name);
+}
+
+Pet addPet() {
+	Pet pet;
+
+	pet.name = inputPetName();
+	pet.healthStatus = "Healthy";
+	pet.happinessLevel = 60;
+	pet.hungerLevel = 60;
+
+	return pet;
+}
+
+void showAllPets(vector<Pet> list) {
+	for (Pet pet : list) {
+		cout << "Name: " << pet.name << endl;
+		pet.displayPetDetails();
+		cout << endl;
+	}
+}
+
+void adoptPet(Adopter &adopter, vector<Pet> &list) {
+	string name = inputPetName();
+
+	for (vector<Pet>::iterator it = list.begin(); it < list.end(); it++) {
+		if (it->name == name) {
+			adopter.adoptPet(*it);
+			list.erase(it);
+
+			cout << "Pet adopted" << endl;
+			return;
+		}
+	}
+
+	cout << "Pet not found" << endl;
+}
+
+void returnPet(Adopter &adopter, vector<Pet> &list) {
+	string name = inputPetName();
+
+	for (Pet pet : adopter.adoptedPetRecords) {
+		if (pet.name == name) {
+			list.push_back(pet);
+			adopter.returnPet(name);
+			cout << "Pet returned" << endl;
+			return;
+		}
+	}
+
+	cout << "Pet not found" << endl;
+}
+
 int main()
 {
 	srand(time(0));
+	vector<Pet> petsList;
 
-	string name;
+	char name[100];
 	cout << "Enter name: ";
-	getline(cin, name);
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	cin.getline(name, sizeof(name));
 
-	string num;
-	cout << "Enter name: ";
-	getline(cin, num);
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	char num[100];
+	cout << "Enter phone number: ";
+	cin.getline(num, sizeof(num));
 
 	Adopter adopter(name, num);
 
@@ -100,6 +157,33 @@ int main()
 		menu(adopter.adopterName);
 		int choice;
 		cin >> choice;
+
+		switch(choice) {
+		case 1: // add pet to pets list
+			cin.ignore();
+			
+			petsList.push_back(addPet());
+			break;
+		case 2: // show all pets in the list
+			showAllPets(petsList);
+			break;
+		case 3: // add pet to adopted list and remove from pets list
+			cin.ignore();
+			adoptPet(adopter, petsList);
+			break;
+		case 4:
+			adopter.displayAdoptedPets(); // show all pets in adopted pets list
+			break;
+		case 5:
+			// add pet interactions
+			break;
+		case 6:
+			cin.ignore();
+			returnPet(adopter, petsList); // remove pet from adopted list and add back to pets list
+			break;
+		default:
+			cout << "Incorrect option" << endl;
+		}
 	}
 
 	return 0;
