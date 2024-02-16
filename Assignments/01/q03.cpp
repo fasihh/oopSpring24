@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 #define spcr "  "
 
@@ -9,7 +10,8 @@ class ChessPiece {
 public:
 	string name, color;
 
-	ChessPiece() : name("p"), color("w") {}
+	// default constructor for white pawns 
+	ChessPiece() : name("P"), color("white") {}
 	ChessPiece(string name, string color) : name(name), color(color) {}
 
 	string getColor() { return color; }
@@ -38,7 +40,7 @@ public:
         board[0][7] = ChessPiece("R", "white");
 
         // init white pawns
-        for (int i = 0; i < 8; i++) board[1][i] = ChessPiece("P", "white");
+        for (int i = 0; i < 8; i++) board[1][i] = ChessPiece();
 
         // init black pieces
         board[7][0] = ChessPiece("r", "black");
@@ -82,18 +84,23 @@ public:
 	}
 
 	bool movePiece(string source, string destination) {
-		ChessPiece piece = board[source[1]-'0'][source[0]-'a'];
+		// getting all positions from string
+		int dest_r = 7-(destination[1]-'1'), dest_c = destination[0]-'a', src_r = 7-(source[1]-'1'), src_c = source[0]-'a';
+		string src_name = board[src_r][src_c].name, dest_name = board[dest_r][dest_c].name; // chess piece name
+		cout << "validating move for '" << src_name << "' from " << source << " to " << destination << ":" << endl;
 
-		if (piece.name == "n" || piece.name == "N") {
-			bool vertical = (source[1]+2 == destination[1] || source[1]-2 == destination[1]) 
-						&& (source[0]+1 == destination[0] || source[0]-1 == destination[0]);
+		if (src_name == "n" || src_name == "N") {
+			bool vertical = abs(dest_r - src_r) == 2 && abs(dest_c - src_c) == 1;
+			bool horizontal = abs(dest_r - src_r) == 1 && abs(dest_c - src_c) == 2;
 
-			bool horizontal = (source[0]+2 == destination[0] || source[0]-2 == destination[0]) 
-						&& (source[1]+1 == destination[1] || source[1]-1 == destination[1]);
-
-			return vertical || horizontal && board[destination[1]-'0'][destination[0]-'a'].name == ".";
-		} else if (piece.name == "p" || piece.name == "P") {
-			return source[1] == destination[1] && (source[0]+1 == destination[0] || source[0]+2 == destination[0]);
+			// check for any of the cases and also make sure dest is empty
+			return vertical || horizontal && dest_name == ".";
+		} else if (src_name == "p" || src_name == "P") {
+			return src_c == dest_c && // checking if same column
+				// checking  upward  movement and obstacle
+				((src_r - dest_r == 1 || src_r - dest_r == 2) && board[src_r-1][src_c].name == ".") || 
+				// checking downward movement and onstacle
+				((dest_r - src_r == 1 || dest_r - src_r == 2) && board[src_r+1][src_c].name == ".");
 		}
 
 		return false;
@@ -106,6 +113,15 @@ int main()
 	board.display();
 	cout << endl << endl;
 
-	cout << board.movePiece("b8", "d7") << endl;
+	// invalid move - knight
+	cout << (board.movePiece("b8", "c7") ? "valid" : "not valid") << endl << endl;
+	// valid move - knight
+	cout << (board.movePiece("b8", "c6") ? "valid" : "not valid") << endl << endl;
+
+	// invalid move - pawn
+	cout << (board.movePiece("b7", "b4") ? "valid" : "not valid") << endl << endl;
+	// valid move - pawn
+	cout << (board.movePiece("b7", "b5") ? "valid" : "not valid") << endl << endl;
+
 	return 0;
 }
