@@ -1,9 +1,5 @@
 #include <iostream>
-#include <cstdlib>
 #include <vector>
-#include <time.h>
-#include <limits>
-#include <string>
 
 using namespace std;
 
@@ -28,7 +24,7 @@ public:
 		if (hunger >= 50)
 			happinessLevel += rand()%10 + 1; // generate random int between 1-10
 		else
-			happinessLevel--;
+			happinessLevel -= rand()%10 + 1;
 	}
 
 	void updateHappiness(int happiness) {
