@@ -2,3 +2,6 @@
 .vscode/
 random/
 test.*
+*.rar
+*.zip
+*.py
