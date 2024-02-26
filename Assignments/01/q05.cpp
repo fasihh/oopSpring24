@@ -138,6 +138,16 @@ User create_user() {
     return { name, phone, age };
 }
 
+int restaurant_select() {
+    int res;
+    cout << "Select restaurant\n"
+         << "\t1. Food Haven\n"
+         << "\t2. Pixel Bites\n"
+         << ">> ";
+    cin >> res;
+    return res;
+}
+
 int main()
 {
     Restaurant fh("Food Haven", "City Center", "FH",
@@ -162,34 +172,20 @@ int main()
         int res;
         switch(choice) {
         case 1:
-            cout << "Select restaurant\n"
-                 << "\t1. Food Haven\n"
-                 << "\t2. Pixel Bites\n"
-                 << ">> ";
-            cin >> res;
+            res = restaurant_select();
 
             if (res == 1) fh.display_menu();
             else if (res == 2) pb.display_menu();
             break;
         case 2:
-            cout << "Select restaurant\n"
-                 << "\t1. Food Haven\n"
-                 << "\t2. Pixel Bites\n"
-                 << ">> ";
-            cin >> res;
-
-            cout << "test\n";
+            res = restaurant_select();
 
             if (res == 1) get_receipt(user, fh);
             else if (res == 2) get_receipt(user, pb);
 
             break;
         case 3:
-            cout << "Select restaurant\n"
-                 << "\t1. Food Haven\n"
-                 << "\t2. Pixel Bites\n"
-                 << ">> ";
-            cin >> res;
+            res = restaurant_select();
 
             int item;
             cout << "Enter item number: ";
