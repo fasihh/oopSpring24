@@ -49,8 +49,7 @@ public:
 	}
 
 	void returnPet(string name) {
-		vector<Pet>::iterator it;
-		for (it = adoptedPetRecords.begin(); it < adoptedPetRecords.end(); it++) {
+		for (auto it = adoptedPetRecords.begin(); it < adoptedPetRecords.end(); it++) {
 			if (it->name == name) adoptedPetRecords.erase(it);
 		}
 	}
