@@ -2,6 +2,7 @@
 
 using namespace std;
 
+class Project;
 class Staff {
 public:
 	int staffID;
@@ -12,10 +13,7 @@ public:
 
 	static float totalSalaries;
 
-	double trackProject(double currentCost) {
-		if (currentCost > 200000) cout << "warning: that cost is exceeding budget" << endl;
-		return currentCost;
-	}
+	double trackProject(double currentCost);
 
 	double animate(double currentCost) { return currentCost + 10000; }
 };
@@ -38,8 +36,14 @@ public:
 	}
 };
 
+
 float Project::budget = 200000;
 float Staff::totalSalaries = 0;
+
+double Staff::trackProject(double currentCost) {
+	if (currentCost > Project::budget) cout << "warning: that cost is exceeding budget" << endl;
+	return currentCost;
+}
 
 int main() {
 	Project project(0, 190000, "WOW");
