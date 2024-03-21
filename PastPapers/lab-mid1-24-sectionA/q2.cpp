@@ -101,7 +101,7 @@ public:
 };
 
 int main() {
-    User user("Mujeeb Regman");
+    User user("Fasih");
 
     user.createPlaylist("Action Movies");
     user.createPlaylist("Comedy Movies");
