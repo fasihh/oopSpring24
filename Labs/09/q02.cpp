@@ -106,6 +106,17 @@ int main() {
 
                 shape = new Circle(radius);
             }
+            break;
+            case 2: {
+                double length, width;
+                cout << "Enter the length of the rectangle: ";
+                cin >> length;
+                cout << "Enter the width of the rectangle: ";
+                cin >> width;
+
+                shape = new Rectangle(length, width);
+            }
+            break;
         }
 
         shape->displayProperties();
