@@ -36,6 +36,7 @@ public:
     double area() const { return length*height; }
     double perimeter() const { return 2*length + 2*height; }
     void displayProperties() const {
+        cout << "Properties of the Rectangle:\n";
         cout << "- Area: " << this->area() << '\n';
         cout << "- Perimeter: " << this->perimeter() << '\n';
         cout << "- Diagonal: " << sqrt(height*height + length*length) << '\n';
@@ -55,6 +56,7 @@ public:
     }
     double perimeter() const { return a + b + c; }
     void displayProperties() const {
+        cout << "Properties of the Triangle:\n";
         cout << "- Area: " << this->area() << '\n';
         cout << "- Perimeter: " << this->perimeter() << '\n';
     }
@@ -73,7 +75,7 @@ public:
     }
     double perimeter() const { return 3*side; }
     void displayProperties() const {
-        cout << "Equilateral Triangle\n";
+        cout << "Properties of the Equilateral Triangle:\n";
         cout << "- Area: " << this->area() << '\n';
         cout << "- Perimeter: " << this->perimeter() << '\n';
     }
@@ -117,6 +119,24 @@ int main() {
                 shape = new Rectangle(length, width);
             }
             break;
+            case 3: {
+                double length;
+                cout << "Enter the length of the rectangle: ";
+                cin >> length;
+
+                shape = new Rectangle(length, length);
+            }
+            case 4: {
+                double s1, s2, s3;
+                cout << "Enter length of each side [3 sides]: ";
+                cin >> s1 >> s2 >> s3;
+
+                if (s1 == s2 && s1 == s3 && s2 == s3)
+                    shape = new EquilateralTriangle(s1);
+                else
+                    shape = new Triangle(s1, s2, s3);
+            }
+            break;
         }
 
         shape->displayProperties();
@@ -128,7 +148,6 @@ int main() {
         if (option == "yes")
             flag = false;
     }
-    display();
 
     return 0;
 }
