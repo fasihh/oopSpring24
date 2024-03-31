@@ -76,6 +76,7 @@ void print(DarazCustomerData customer) {
 }
 
 int main() {
+    cout << "Fasih Hasan Khan\n23k0018\n\n";
     int loyaltyPoints;
     float item_price;
 

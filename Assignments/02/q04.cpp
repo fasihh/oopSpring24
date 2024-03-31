@@ -142,6 +142,7 @@ public:
 };
 
 int main() {
+    cout << "Fasih Hasan Khan\n23k0018\n\n";
     Post posts[] = {
         Post("Hello World!").addComment({ "Hello" }).addComment({ "World "}).addComment({ "!" }),
         Post("Promotional Content").setLikes(2).setViews(1).addComment({ "Cool!" }),

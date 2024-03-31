@@ -93,6 +93,8 @@ void Character::playGame(Weapon weapons, Enemy& enemy) {
 }
 
 int main() {
+    cout << "Fasih Hasan Khan\n23k0018\n\n";
+    
     Weapon weapons({
         "Mjölnir",
         "Funny Sword"
