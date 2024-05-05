@@ -59,7 +59,7 @@ public:
     void navigateTo(float latitude, float longitude, float altitude) override {
         try {
             if (flight_time >= max_flight_time)
-                throw "Drone has reached maximum flight time";
+                throw DRONE_FLIGHT_LIMIT_ERROR;
             float dx = latitude - this->pos_lat;
             float dy = longitude - this->pos_long;
             float dz = altitude - this->altitude;
@@ -96,6 +96,7 @@ public:
 };
 
 int main() {
+    cout << "Fasih Hasan Khan\n23K-0018" << endl;
     ReconDrone r_drone(0.f, 0.f, 0.f, 10.f, 12.f, 720);
     r_drone.start();
     r_drone.takeoff();
