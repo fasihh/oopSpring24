@@ -1,7 +1,10 @@
 #include <iostream>
 #include <cmath>
 
+// using macros for constant values. I could also use const variables but this looks better
 #define OBJECTS 2
+#define DRONE_FLIGHT_LIMIT_ERROR "FLIGHT_LIMIT: Drone has reached maximum flight time"
+#define DRONE_SIGNAL_ERROR "NO_SIGNAL: Drone out of range"
 
 using namespace std;
 
@@ -64,15 +67,18 @@ public:
             float time = this->distance(dx, dy, dz) / this->speed;
             cout << "Navigating to (" << latitude << ", " << longitude << ", " << altitude << ") -- ETA: " << time << "s" << endl;
             this->flight_time += time, this->pos_lat = latitude, this->pos_long = longitude, this->altitude = altitude;
-        } catch(const char *flight_limit_reached_error) {
-            cout << flight_limit_reached_error << endl;
+        } catch(const char *error) {
+            cout << error << endl;
         }
     }
 
     void scanArea(float radius) override {
         try {
             if (flight_time >= max_flight_time)
-                throw "Drone has reached maximum flight time";
+                throw DRONE_FLIGHT_LIMIT_ERROR;
+            if (this->distance(pos_lat, pos_long, altitude) >= 20.f)
+                throw DRONE_SIGNAL_ERROR;
+            
             cout << "Scanning area within " << radius << "m radius" << endl;
             for (int i = 0; i < OBJECTS; ++i) {
                 float dx = objects[i][0] - this->pos_lat;
@@ -83,14 +89,14 @@ public:
                     cout << "Object detected: (" << objects[i][0] << ", " << objects[i][1] << ", " << objects[i][2] << ")" << endl;
             }
             flight_time += 5.f;
-        } catch(const char *flight_limit_reached_error) {
-            cout << flight_limit_reached_error << endl;
+        } catch(const char *error) {
+            cout << error << endl;
         }
     }
 };
 
 int main() {
-    ReconDrone r_drone(0.f, 0.f, 0.f, 10.f, 10.f, 720);
+    ReconDrone r_drone(0.f, 0.f, 0.f, 10.f, 12.f, 720);
     r_drone.start();
     r_drone.takeoff();
     
@@ -98,7 +104,9 @@ int main() {
     r_drone.navigateTo(8.f, 10.f, 13.f);
     r_drone.scanArea(10.f);
     
-    r_drone.navigateTo(10.f, 10.f, 10.f);
+    r_drone.navigateTo(20.f, 30.f, 40.f);
+    r_drone.scanArea(10.f);
+    r_drone.navigateTo(0.f, 0.f, 0.f);
 
     return 0;
 }
